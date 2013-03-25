@@ -1,21 +1,22 @@
+
 """
 model.py
 """
 
 import sqlite3
+import datetime
 
-def connect_db():
+def db():
 	return sqlite3.connect("tipsy.db")
 
 
-#bob_id = new_user(db, "bob@loblaw.com", "password", "Bob Loblaw")
+#new_user(db, "bob@loblaw.com", "password", "Bob Loblaw")
 def new_user(db, email, password, name):
     c = db.cursor()
     query = """INSERT INTO Users VALUES (NULL, ?, ?, ?)"""
     result = c.execute(query, (email, password, name))
     db.commit()
     return result.lastrowid
-    print result.lastrowid
 
 def authenticate(db, email, password):
     c = db.cursor()
@@ -30,8 +31,10 @@ def authenticate(db, email, password):
 
 def get_user(db, user_id):
 	c = db.cursor()
-	query = """SELECT * FROM Users WHERE user_name=?"""
+	query = """SELECT * FROM Users WHERE id=?"""
+	c.execute(query, [user_id])
 	result = c.fetchone()
+	print result
 	if result:
 		credentials = ['id', 'email', 'password', 'name']
 		return dict(zip(credentials, result))
@@ -41,43 +44,82 @@ def get_user(db, user_id):
 
 def get_task(db, task_id):
 	c = db.cursor()
-	query = """SELECT * FROM Tasks WHERE task_id=?"""
+	query = """SELECT * FROM Tasks WHERE id=?"""
+	c.execute(query, [task_id])
 	result = c.fetchone()
+	print result
 	if result:
 		credentials = ['id', 'title', 'created_at', 'completed_at', 'user_id']
 		return dict(zip(credentials, result))
 		#zip returns a list of tuples
 	return None
 
-def get_tasks(db, user_id):
+def get_tasks(db, user_id = None):
 	c = db.cursor()
 	query = """SELECT * FROM Tasks WHERE user_id=?"""
-	result = c.fetchone()
+	c.execute(query, [user_id])
+	result = c.fetchall()
 	if result:
 		user_id = True
-		print "USER SPECIFIC TASKS"
-		return dict(zip(result))
-	return
-	query = """SELECT * FROM Tasks"""
-	result = c.fetchone()
-	print "ALL TASKS"
-	return dict(zip(result))
+		print "true" 
+		print result
+	else:
+		user_id = None
+		query = """SELECT * FROM Tasks"""
+		c.execute(query, [])
+		result = c.fetchall()
+		tasks_list = []
+		result = list(result)
+		# move into its own function and consider consolidating like line 52,53
+		for i, values in enumerate(result):
+			each_dict = {
+			"id": values[0],
+			"title": values[1],
+			"created_at": values[2],
+			"completed_at": values [3],
+			"user_id": values [4]
+			}
+			tasks_list.append(each_dict)
+		return tasks_list
 
+
+# def get_tasks(db, user_id):
+#     c = db.cursor()
+#     if user_id:
+#         query = """SELECT * from Tasks WHERE user_id = ?"""
+#         c.execute(query, (user_id,))
+#     else:
+#         query = """SELECT * from Tasks"""
+#         c.execute(query)
+#     tasks = []
+#     rows = c.fetchall()
+#     for row in rows:
+#         task = dict(zip(["id", "title", "created_at", "completed_at", "user_id"], row))
+#         tasks.append(task)
+
+#     return tasks
 
 def new_task(db, title, user_id):
 	c = db.cursor()
-	query = """INSERT INTO Tasks VALUES (NULL, ?, ?)"""
-	created_at = NULL #datetime.now()
-	completed_at = NULL
-	result = c.execute(query, (title, user_id, created_at,
-    completed_at))
+	query = """INSERT INTO Tasks VALUES (NULL, ?, ?, ?, ?)"""
+	created_at = datetime.datetime.now()
+	completed_at = None
+	result = c.execute(query, (title, created_at,
+    completed_at, user_id))
 	db.commit()
 	return result.lastrowid
-	print result.lastrowid
 
-def complete_task(db, task_id):
+def completed_task(db, task_id):
 	c = db.cursor()
-	query = """INSERT INTO Tasks VALUES (?)"""
+	query = """UPDATE Tasks SET completed_at = ? WHERE id =?"""
+	# only query needs proper column name
+	# function variables can be whatever
+	completed_at = datetime.datetime.now()
+	print completed_at
+	result = c.execute(query,(completed_at, task_id))
+	# execute method requires a list object (tuple or list)
+	db.commit()
+	return result.lastrowid
 
 
 
