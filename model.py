@@ -83,21 +83,21 @@ def get_tasks(db, user_id = None):
 		return tasks_list
 
 
-# def get_tasks(db, user_id):
-#     c = db.cursor()
-#     if user_id:
-#         query = """SELECT * from Tasks WHERE user_id = ?"""
-#         c.execute(query, (user_id,))
-#     else:
-#         query = """SELECT * from Tasks"""
-#         c.execute(query)
-#     tasks = []
-#     rows = c.fetchall()
-#     for row in rows:
-#         task = dict(zip(["id", "title", "created_at", "completed_at", "user_id"], row))
-#         tasks.append(task)
+def get_tasks(db, user_id):
+    c = db.cursor()
+    if user_id:
+        query = """SELECT * from Tasks WHERE user_id = ?"""
+        c.execute(query, (user_id,))
+    else:
+        query = """SELECT * from Tasks"""
+        c.execute(query)
+    tasks = []
+    rows = c.fetchall()
+    for row in rows:
+        task = dict(zip(["id", "title", "created_at", "completed_at", "user_id"], row))
+        tasks.append(task)
 
-#     return tasks
+    return tasks
 
 def new_task(db, title, user_id):
 	c = db.cursor()
