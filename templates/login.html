@@ -1,11 +1,14 @@
+
+{% extends "layout.html" %}
+{% block body %}
 <html>
 
     <head> <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css">
-      
+
       <title>Tipsy Login</title></head>
     <body>
         <h1>testing1</h1>
-        <h2>Hey, </h2>
+        <h2>Hey, please login. </h2>
 
 
 <form class="form-horizontal">
@@ -15,12 +18,14 @@
       <input type="text" id="inputEmail" placeholder="email">
     </div>
   </div>
+
   <div class="control-group">
     <label class="control-label" for="inputPassword">Password</label>
     <div class="controls">
       <input type="password" id="inputPassword" placeholder="password">
     </div>
   </div>
+
   <div class="control-group">
     <div class="controls">
       <label class="checkbox">
@@ -30,6 +35,8 @@
     </div>
   </div>
 </form>
+
+
         <style type="text/css">
       body {
         padding-top: 40px;
@@ -39,4 +46,5 @@
 </body>
 
 </html>
+{% endblock %}
 

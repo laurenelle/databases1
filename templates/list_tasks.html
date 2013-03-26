@@ -1,4 +1,34 @@
-<html>
+
+{% extends "layout.html" %}
+{% block body %}
+<title>The List</title>
+<h1>Task List</h1>
+<div class="tasklist">
+<ul>
+	<i class="icon-heart"></i>
+</ul>
+
+    <ul>
+    {% for task in tasks %}
+    <li>
+        <a href="{{ url_for("view_task", id=task['id']) }}">Task {{ task['id'] }}</a>:
+            {{ task['title'] }}
+            {% if task['completed_at'] %} &mdash; Completed
+            {% endif %}
+    </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<form method="POST" action="/save_task">
+    <label for="title">New Task Item
+    <input type="text" name="title" id="title"></input>
+    <input type="submit"></input>
+</form>
+{% endblock %}
+
+
+<!-- <html>
     <head> <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css">
     	<script src="/path/to/less.js"></script>
     	<title>Tipsy</title></head>
@@ -8,11 +38,11 @@
 
         <h1>Task List</h1>
         <ul>
-<!--         {% for task in tasks %}
+        {% for task in tasks %}
         <li>Task {{ task['id'] }}: {{ task['title'] }}</li>
 <li><form method="POST" action="/complete_task"><input type="submit"></li>
         {% endfor %}
- -->
+
         {% for task in tasks %}
 <li>
     <a href="/task/{{task['id']}}">Task {{ task['id'] }}</a>:
@@ -24,4 +54,4 @@
         </ul>
           </div>
     </body>
-</html>
+</html> -->

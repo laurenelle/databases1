@@ -18,6 +18,10 @@ def new_user(db, email, password, name):
     db.commit()
     return result.lastrowid
 
+def make_user(row):
+    fields = ["id", "email", "password", "username"]
+    return dict(zip(fields, row))
+
 def authenticate(db, email, password):
     c = db.cursor()
     query = """SELECT * FROM Users WHERE email=? AND password=?"""
@@ -108,6 +112,10 @@ def new_task(db, title, user_id):
     completed_at, user_id))
 	db.commit()
 	return result.lastrowid
+
+def make_task(row):
+    fields = ["title", "user_id", "created_at", "completed_at"]
+    return dict(zip(fields, row))
 
 def completed_task(db, task_id):
 	c = db.cursor()
