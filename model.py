@@ -58,33 +58,33 @@ def get_task(db, task_id):
 		#zip returns a list of tuples
 	return None
 
-def get_tasks(db, user_id = None):
-	c = db.cursor()
-	query = """SELECT * FROM Tasks WHERE user_id=?"""
-	c.execute(query, [user_id])
-	result = c.fetchall()
-	if result:
-		user_id = True
-		print "true" 
-		print result
-	else:
-		user_id = None
-		query = """SELECT * FROM Tasks"""
-		c.execute(query, [])
-		result = c.fetchall()
-		tasks_list = []
-		result = list(result)
-		# move into its own function and consider consolidating like line 52,53
-		for i, values in enumerate(result):
-			each_dict = {
-			"id": values[0],
-			"title": values[1],
-			"created_at": values[2],
-			"completed_at": values [3],
-			"user_id": values [4]
-			}
-			tasks_list.append(each_dict)
-		return tasks_list
+# def get_tasks(db, user_id = None):
+# 	c = db.cursor()
+# 	query = """SELECT * FROM Tasks WHERE user_id=?"""
+# 	c.execute(query, [user_id])
+# 	result = c.fetchall()
+# 	if result:
+# 		user_id = True
+# 		print "true" 
+# 		print result
+# 	else:
+# 		user_id = None
+# 		query = """SELECT * FROM Tasks"""
+# 		c.execute(query, [])
+# 		result = c.fetchall()
+# 		tasks_list = []
+# 		result = list(result)
+# 		# move into its own function and consider consolidating like line 52,53
+# 		for i, values in enumerate(result):
+# 			each_dict = {
+# 			"id": values[0],
+# 			"title": values[1],
+# 			"created_at": values[2],
+# 			"completed_at": values [3],
+# 			"user_id": values [4]
+# 			}
+# 			tasks_list.append(each_dict)
+# 		return tasks_list
 
 
 def get_tasks(db, user_id):
@@ -117,7 +117,7 @@ def make_task(row):
     fields = ["title", "user_id", "created_at", "completed_at"]
     return dict(zip(fields, row))
 
-def completed_task(db, task_id):
+def complete_task(db, task_id):
 	c = db.cursor()
 	query = """UPDATE Tasks SET completed_at = ? WHERE id =?"""
 	# only query needs proper column name

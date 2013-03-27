@@ -1,0 +1,29 @@
+
+{% extends "layout.html" %}
+{% block body %}
+<title>The Users</title>
+<h1>USERS!</h1>
+<div class="userlist">
+<ul>
+	<i class="icon-heart"></i>
+</ul>
+
+    <ul>
+    {% for user in users %}
+    <li>
+        <a href="{{ url_for("view_user", id=user['id']) }}">User {{ user['id'] }}</a>:
+            {{ user['name'] }}
+            {{ user['email']}}
+            {{ user['password']}}
+            {% if task['completed_at'] %} &mdash; Completed
+            {% endif %}
+    </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<form method="POST" action="/save_user">
+    <input type="text" name="name"></input>
+    <input type="submit">
+</form>
+{% endblock %}

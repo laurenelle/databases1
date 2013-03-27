@@ -9,6 +9,8 @@
 </ul>
 
     <ul>
+    
+<li>Hi {{session['user_id']}}</li>
     {% for task in tasks %}
     <li>
         <a href="{{ url_for("view_task", id=task['id']) }}">Task {{ task['id'] }}</a>:
@@ -21,9 +23,8 @@
 </div>
 
 <form method="POST" action="/save_task">
-    <label for="title">New Task Item
-    <input type="text" name="title" id="title"></input>
-    <input type="submit"></input>
+    <input type="text" name="task_title"></input>
+    <input type="submit">
 </form>
 {% endblock %}
 

@@ -1,16 +1,22 @@
+
 {% extends "layout.html" %}
 {% block body %}
 <html>
-
     <head> <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css">
-    	<title>Tipsy</title></head>
+    	<script src="/path/to/less.js"></script>
+    	<title>New Task</title></head>
     <body>
+<div class="container">
 
-<form method="POST" action="/save_task">
+
+
+<form method="POST" action="/complete_task">
     <input type="text" name="task_title"></input>
     <input type="submit">
 </form>
 
+</div>
+<i class="icon-search"></i>
     </body>
 </html>
 {% endblock %}
